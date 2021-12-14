@@ -22,24 +22,33 @@ fnames_low = ['0_low.dat', '1_low.dat', '2_low.dat', '3_low.dat', '4_low.dat']
 
 # Read normal gaussian from results.dat
 data_high = []
-data_high.append(np.genfromtxt(file_path + fnames_high, delimiter=',', skip_header=1))
-
 data_low = []
-data_low.append(np.genfromtxt(file_path + fnames_low, delimiter=',', skip_header=1))
 
-r = data[:n_timesteps, 0]
+fig, ax = plt.subplots(nrows=4, ncols=1, sharex=True, figsize=(16, 16))
+dt = 0.001
+for i, fname_high in enumerate(fnames_high):
+    data_high = np.genfromtxt(file_path + fnames_high[i], delimiter=',', skip_header=1)
 
-v = data[:n_timesteps, 1]
+    data_low = np.genfromtxt(file_path + fnames_low[i], delimiter=',', skip_header=1)
 
-fig = plt.figure()
-ax = fig.add_subplot()
-ax.plot( np.arange(len(r))*dt, r[:]*1e6, alpha = 0.2, color='blue', marker='.')
-    ##time.sleep(time_duration)
+    t = np.arange(len(data_low[:, 0]))*dt
+    ax[0].plot(t, data_low[:, 0])
+    ax[1].plot(t, data_low[:, 1])
 
-ax.set_xlabel('t [ms]')
-ax.set_ylabel(r'Position [nm]')
-#ax.set_xlim(-0.1, 0.1)
-#ax.set_ylim(-0.1, 0.1)
+
+    t = np.arange(len(data_high[:, 0]))*dt
+    ax[2].plot(t, data_high[:, 0])
+    ax[3].plot(t, data_high[:, 1])
+ax[0].set_xlim((0, 6))
+ax[0].set_ylabel(r"r_low []")
+ax[1].set_xlim((0, 6))
+ax[1].set_ylabel(r"v_low []")
+ax[2].set_xlim((0, 6))
+ax[2].set_ylabel(r"r_high []")
+ax[3].set_xlim((0, 6))
+ax[3].set_ylabel(r"v_high []")
+ax[3].set_xlabel(r"time [ms]")
+plt.savefig('traj.png', dpi=600)
 plt.show()
 
 

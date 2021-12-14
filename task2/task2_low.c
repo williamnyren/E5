@@ -142,9 +142,9 @@ void velocity_verlet_algorithm( double * r_phase, double * v_phase,
 
         /* Calculate acc */
         gauss_rand_xi = gsl_ran_ugaussian( xi );
-        p.a = -(omega_0*omega_0) * p.r 
+        p.a = -(omega_0*omega_0) * p.r;/* 
                     - friction_coefficient * p.v
-                    + (2.0 * friction_coefficient * KB * T * p.m_inv)*gauss_rand_xi;
+                    + (2.0 * friction_coefficient * KB * T * p.m_inv)*gauss_rand_xi;*/
 
         /* Full-step */
         gauss_rand2 = gsl_ran_ugaussian( rand_gen2 );
