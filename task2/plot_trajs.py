@@ -32,23 +32,27 @@ for i, fname_high in enumerate(fnames_high):
     data_low = np.genfromtxt(file_path + fnames_low[i], delimiter=',', skip_header=1)
 
     t = np.arange(len(data_low[:, 0]))*dt
-    ax[0].plot(t, data_low[:, 0])
-    ax[1].plot(t, data_low[:, 1])
+    ax[0].plot(t, data_low[:, 0]*1e3)
+    ax[1].plot(t, data_low[:, 1]*1e3)
 
 
     t = np.arange(len(data_high[:, 0]))*dt
-    ax[2].plot(t, data_high[:, 0])
-    ax[3].plot(t, data_high[:, 1])
+    ax[2].plot(t, data_high[:, 0]*1e3)
+    ax[3].plot(t, data_high[:, 1]*1e3)
 ax[0].set_xlim((0, 6))
-ax[0].set_ylabel(r"r_low []")
+ax[0].set_ylabel(r"r_low  [$\mu$m]", size=15)
 ax[1].set_xlim((0, 6))
-ax[1].set_ylabel(r"v_low []")
+ax[1].set_ylabel(r"v_low  [$\mu$m/ms]", size=15)
 ax[2].set_xlim((0, 6))
-ax[2].set_ylabel(r"r_high []")
+ax[2].set_ylabel(r"r_high  [$\mu$m]", size=15)
 ax[3].set_xlim((0, 6))
-ax[3].set_ylabel(r"v_high []")
-ax[3].set_xlabel(r"time [ms]")
+ax[3].set_ylabel(r"v_high  [$\mu$m/ms]", size=15)
+ax[3].set_xlabel(r"time  [ms]", size=15)
 plt.savefig('traj.png', dpi=600)
+ax[0].grid()
+ax[1].grid()
+ax[2].grid()
+ax[3].grid()
 plt.show()
 
 
