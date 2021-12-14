@@ -36,8 +36,8 @@ for i, fname_high in enumerate(fnames_high):
     time_avg_low += data_low
 
     t = np.arange(len(data_low[:, 0]))*dt
-    ax[0].plot(t, data_low[:, 0])
-    ax[1].plot(t, data_low[:, 1])
+    ax[0].plot(t, data_low[:, 0]*1e3)
+    ax[1].plot(t, data_low[:, 1]*1e3)
 
 
     t = np.arange(len(data_high[:, 0]))*dt
@@ -46,16 +46,20 @@ for i, fname_high in enumerate(fnames_high):
 time_avg_low = time_avg_low/5.0
 time_avg_high = time_avg_high/5.0
 ax[0].set_xlim((0, 6))
-ax[0].set_ylabel(r"r_low []")
+ax[0].set_ylabel(r"r_low  [$\mu$m]", size=15)
 ax[1].set_xlim((0, 6))
-ax[1].set_ylabel(r"v_low []")
+ax[1].set_ylabel(r"v_low  [$\mu$m/ms]", size=15)
 ax[2].set_xlim((0, 6))
-ax[2].set_ylabel(r"r_high []")
+ax[2].set_ylabel(r"r_high  [$\mu$m]", size=15)
 ax[3].set_xlim((0, 6))
 ax[3].set_ylabel(r"v_high []")
 ax[3].set_xlabel(r"time [ms]")
 
 plt.savefig('traj.png', dpi=600)
+ax[0].grid()
+ax[1].grid()
+ax[2].grid()
+ax[3].grid()
 plt.show()
 fig, ax = plt.subplots(ncols=4,nrows=1,figsize=(16,16))
 ax[0].plot(t,time_avg_low[:,0],label='time avg low')
