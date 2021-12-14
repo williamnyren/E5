@@ -154,9 +154,9 @@ void velocity_verlet_algorithm( double * r_phase, double * v_phase,
                     + v_th * sqrt(1 - c_0) * gauss_rand2;
 
         /* Save trajectory */
-        r_phase[tx] = p.r;
+        r_phase[tx] = p.r*1e3;
         
-        v_phase[tx] = p.v;
+        v_phase[tx] = p.v*1e3;
     }
 }
 
