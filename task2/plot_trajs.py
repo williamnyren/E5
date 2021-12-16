@@ -53,8 +53,11 @@ for i, fname_high in enumerate(fnames_high):
     ax[2].plot(t, data_high[:, 0])
     ax[3].plot(t, data_high[:, 1])
 
+time_avg_low /= 5.0
+time_avg_high /= 5.0
+
 x_max = 1
-x_min = -0.05
+x_min = -0.005
 font_size = 25
 ax[0].set_xlim((0, x_max))
 ax[0].set_ylabel(r"$x_{low}$  [$\mu$m]", size=font_size)

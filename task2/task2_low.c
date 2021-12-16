@@ -131,6 +131,10 @@ void velocity_verlet_algorithm( double * r_phase, double * v_phase,
     double v_th = sqrt(KB*T*p.m_inv);
     for(long int tx = 0; tx < n_timesteps; ++tx){
         
+        /* Save trajectory */
+        r_phase[tx] = p.r*1e3;
+        
+        v_phase[tx] = p.v*1e3;
         /* half-step */
         gauss_rand1 = gsl_ran_ugaussian( rand_gen1 );
 
@@ -153,10 +157,6 @@ void velocity_verlet_algorithm( double * r_phase, double * v_phase,
                     + sqrt(c_0) * p.v 
                     + v_th * sqrt(1 - c_0) * gauss_rand2;
 
-        /* Save trajectory */
-        r_phase[tx] = p.r*1e3;
-        
-        v_phase[tx] = p.v*1e3;
     }
 }
 
