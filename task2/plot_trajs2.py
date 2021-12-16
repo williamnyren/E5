@@ -55,12 +55,13 @@ for i in range(n_trajs):
     pos_avg_low += pos_low[i][:]
     vel_avg_low += vel_low[i][:]
     
-    ax[0].plot(t, pos_low[i][:],alpha=0.1)
-    ax[1].plot(t, vel_low[i][:],alpha=0.1)
+    if(i % 5 == 0):
+        ax[0].plot(t, pos_low[i][:],alpha=0.1)
+        ax[1].plot(t, vel_low[i][:],alpha=0.1)
 
 
-    ax[2].plot(t, pos_high[i][:],alpha=0.1)
-    ax[3].plot(t, vel_high[i][:],alpha=0.1)
+        ax[2].plot(t, pos_high[i][:],alpha=0.1)
+        ax[3].plot(t, vel_high[i][:],alpha=0.1)
 
 pos_avg_low /= n_trajs
 vel_avg_low /= n_trajs
@@ -123,6 +124,7 @@ ax[2].plot(t, pos_avg_high, color= 'green', linewidth=2)
 ax[3].plot(t, vel_avg_high, color= 'blue' , linewidth=2)
 
 font_size = 25
+x_max = 2.0
 
 ax[0].set_xlim((0, x_max))
 ax[0].set_ylabel(r"$x_{low}$  [$\mu$m]", size=font_size)
@@ -138,5 +140,5 @@ ax[0].grid()
 ax[1].grid()
 ax[2].grid()
 ax[3].grid()
-plt.savefig('traj.png', dpi=600)
+plt.savefig('trajs_std.png', dpi=600)
 plt.show()

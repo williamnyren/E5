@@ -16,7 +16,7 @@ const double T = 297.0; /* K */
 const long int sim_time = 2;
 const long int sim_steps = (long int)( sim_time * 1000) / ((long int)(dt*1e3));
 const long int n_timesteps = 1 * sim_steps; /* X * [production group steps] */
-const long int n_trajectories = 20;
+const long int n_trajectories = 500;
 
 /* Properties of Brownian particle */
 typedef struct Brownian_particle{
@@ -132,6 +132,8 @@ int main(){
     fclose(fp);
 
     free(r_phase);
+    free(r_store);
+    free(v_store);
     free(v_phase);
     gsl_rng_free (rand_gen1);
     gsl_rng_free (rand_gen2);
