@@ -37,10 +37,10 @@ vel_high = np.split(velocities_high, n_timesteps)
 pos_low = np.split(positions_low, n_timesteps)
 vel_low = np.split(velocities_low, n_timesteps)
 
-pos_avg_high = np.zeros(pos_high[:,0].shape)
-vel_avg_high = np.zeros(pos_high[:,0].shape)
-pos_avg_low = np.zeros(pos_high[:,0].shape)
-vel_avg_low = np.zeros(pos_high[:,0].shape)
+pos_avg_high = np.zeros_like(pos_high[:,0])
+vel_avg_high = np.zeros_like(pos_high[:,0])
+pos_avg_low = np.zeros_like(pos_high[:,0])
+vel_avg_low = np.zeros_like(pos_high[:,0])
 
 fig, ax = plt.subplots(nrows=4, ncols=1, sharex=True, figsize=(16, 16))
 dt = 0.001
