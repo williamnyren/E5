@@ -13,10 +13,10 @@ const double tau = 48.5*1e-3; /* ms = milli sec */ /* LOW: 147.3 \mu sec, HIGH: 
 const double friction_coefficient = 1.0/tau;
 const double omega_0 = 2.0 * M_PI * 3.1; /* 1/ms */
 const double T = 297.0; /* K */
-const long int sim_time = 100;
+const long int sim_time = 2;
 const long int sim_steps = (long int)( sim_time * 1000) / ((long int)(dt*1e3));
 const long int n_timesteps = 1 * sim_steps; /* X * [production group steps] */
-const long int n_trajectories = 1000;
+const long int n_trajectories = 20;
 
 /* Properties of Brownian particle */
 typedef struct Brownian_particle{
