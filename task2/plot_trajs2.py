@@ -11,8 +11,8 @@ from numpy.core.fromnumeric import size
 
 
 file_path = '/home/nyrenw/chalmers/FKA121/E5/task2/'
-fnames_high = ['0_high.dat', '1_high.dat', '2_high.dat', '3_high.dat', '4_high.dat']
-fnames_low = ['0_low.dat', '1_low.dat', '2_low.dat', '3_low.dat', '4_low.dat']
+fname_high = 'trajs_high.dat'
+fname_low = 'trajs_low.dat'
 #with open(file) as f:
 #    lines = f.read() ##Assume the sample file has 3 lines
 #    str_settings = lines.split('\n', 1)[0]
@@ -23,38 +23,47 @@ fnames_low = ['0_low.dat', '1_low.dat', '2_low.dat', '3_low.dat', '4_low.dat']
 
 
 
-## ------- HIGH ---------
-time_avg_high = np.zeros(np.genfromtxt(file_path + fnames_high[0], delimiter=',', skip_header=1).shape)
+data_high = np.genfromtxt(file_path + fname_high, delimiter=',', skip_header=0)
+data_low = np.genfromtxt(file_path + fname_low, delimiter=',', skip_header=0)
+n_timesteps = data_high[0,0]
+n_trajs = data_high[0,1]
+positions_high = data_high[1:,0]
+velocities_high = data_high[1:,1]
+positions_low = data_low[1:,0]
+velocities_low = data_low[1:,1]
 
-sigma_sq_high = np.zeros(np.genfromtxt(file_path + fnames_high[0], delimiter=',', skip_header=1).shape)
+pos_high = np.split(positions_high, n_timesteps)
+vel_high = np.split(velocities_high, n_timesteps)
+pos_low = np.split(positions_low, n_timesteps)
+vel_low = np.split(velocities_low, n_timesteps)
 
-## ------- LOW ---------
-time_avg_low = np.zeros(np.genfromtxt(file_path + fnames_low[0], delimiter=',', skip_header=1).shape)
-
-sigma_sq_low = np.zeros(np.genfromtxt(file_path + fnames_high[0], delimiter=',', skip_header=1).shape)
-
-
+pos_avg_high = np.zeros(pos_high[:,0].shape)
+vel_avg_high = np.zeros(pos_high[:,0].shape)
+pos_avg_low = np.zeros(pos_high[:,0].shape)
+vel_avg_low = np.zeros(pos_high[:,0].shape)
 
 fig, ax = plt.subplots(nrows=4, ncols=1, sharex=True, figsize=(16, 16))
 dt = 0.001
-for i, fname_high in enumerate(fnames_high):
-    data_high = np.genfromtxt(file_path + fnames_high[i], delimiter=',', skip_header=1)
-    time_avg_high += data_high
+for i in range(n_trajs):
+    pos_avg_high += pos_high[:,i]
+    vel_avg_high += vel_high[:,i]
 
-    data_low = np.genfromtxt(file_path + fnames_low[i], delimiter=',', skip_header=1)
-    time_avg_low += data_low
-
+    pos_avg_low += pos_low[:,i]
+    vel_avg_low += vel_low[:,i]
+    
     t = np.arange(len(data_low[:, 0]))*dt
-    ax[0].plot(t, data_low[:, 0])
-    ax[1].plot(t, data_low[:, 1])
+    ax[0].plot(t, pos_low[:, 0],alpha=0.1)
+    ax[1].plot(t, vel_low[:, 1],alpha=0.1)
 
 
     t = np.arange(len(data_high[:, 0]))*dt
-    ax[2].plot(t, data_high[:, 0])
-    ax[3].plot(t, data_high[:, 1])
+    ax[2].plot(t, pos_high[:, i],alpha=0.1)
+    ax[3].plot(t, vel_high[:, i],alpha=0.1)
 
-time_avg_low /= 5.0
-time_avg_high /= 5.0
+pos_avg_low /= n_trajs
+vel_avg_low /= n_trajs
+pos_avg_high /= n_trajs
+vel_avg_high /= n_trajs
 
 x_max = 1
 x_min = -0.005
