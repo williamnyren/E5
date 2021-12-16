@@ -16,6 +16,7 @@ const double T = 297.0; /* K */
 const long int sim_time = 100;
 const long int sim_steps = (long int)( sim_time * 1000) / ((long int)(dt*1e3));
 const long int n_timesteps = 1 * sim_steps; /* X * [production group steps] */
+const long int n_trajectories = 1000;
 
 /* Properties of Brownian particle */
 typedef struct Brownian_particle{
@@ -80,13 +81,17 @@ int main(){
 
     double *r_phase = (double *)malloc( n_timesteps * sizeof(double) );
 
+    double *v_store = (double *)malloc( n_trajectories * n_timesteps * sizeof(double) );
+
+    double *r_store = (double *)malloc( n_trajectories * n_timesteps * sizeof(double) );
+
     /* Relaxation */
     /*velocity_verlet_algorithm( r_phase, v_phase, c_0, p1, 
     rand_gen1, rand_gen2, rand_gen3);
     velocity_verlet_algorithm( r_phase, v_phase, c_0, p1, 
     rand_gen1, rand_gen2, rand_gen3);*/
 
-    int trajs = 5;
+    long int trajs = n_trajectories;
     char ** fnames = (char **)malloc( trajs * sizeof(char*) );
     fnames[0] = "0_high.dat";
     fnames[1] = "1_high.dat";
@@ -94,7 +99,9 @@ int main(){
     fnames[3] = "3_high.dat";
     fnames[4] = "4_high.dat";
 
-    for(int traj = 0; traj < trajs; ++traj)
+
+
+    for(long int traj = 0; traj < trajs; ++traj)
     {
         p1.r = 0.1 * 1e-3;
         p1.v = 2.0 * 1e-3;
@@ -102,16 +109,27 @@ int main(){
         velocity_verlet_algorithm( r_phase, v_phase, c_0, p1, 
         rand_gen1, rand_gen2, rand_gen3);
 
-        /* write to file */
-        /* CHANGE TO A cahr ** AND ITER. OVER IT */
-        FILE *fp = fopen(fnames[traj], "w");
-        fprintf(fp, "r_phase, v_phase");
-        for( long int tx = 0; tx < n_timesteps; ++tx){
-            fprintf(fp, "\n%.16f,%.16f", r_phase[tx], v_phase[tx]);
+        for( long int we_can_say_that = 0; we_can_say_that < n_timesteps; ++we_can_say_that)
+        {
+            r_store[we_can_say_that + n_timesteps*traj] = 
+            r_phase[we_can_say_that];
+            
+            v_store[we_can_say_that + n_timesteps*traj] = 
+            v_phase[we_can_say_that];
+
         }
-        fclose(fp);
+
     }
     /* calc_Cl(v_phase); */
+    /* write to file */
+    /* CHANGE TO A cahr ** AND ITER. OVER IT */
+
+    FILE *fp = fopen("trajectories.dat", "w");
+    fprintf(fp, "%li,%li", n_timesteps, n_trajectories);
+    for( long int tx = 0; tx < n_timesteps*n_trajectories; ++tx){
+        fprintf(fp, "\n%.16f,%.16f", r_store[tx], v_store[tx]);
+    }
+    fclose(fp);
 
     free(r_phase);
     free(v_phase);
