@@ -124,7 +124,7 @@ int main(){
     /* write to file */
     /* CHANGE TO A cahr ** AND ITER. OVER IT */
 
-    FILE *fp = fopen("trajectories.dat", "w");
+    FILE *fp = fopen("trajs_high.dat", "w");
     fprintf(fp, "%li,%li", n_timesteps, n_trajectories);
     for( long int tx = 0; tx < n_timesteps*n_trajectories; ++tx){
         fprintf(fp, "\n%.16f,%.16f", r_store[tx], v_store[tx]);
